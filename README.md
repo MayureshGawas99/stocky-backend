@@ -24,7 +24,7 @@ Backend service for assigning stock rewards, maintaining ledger entries, and pro
 3. Create a `.env` file (example shown below).
 4. Run the server: `go run main.go` or build with `go build -o stock-reward-api .` and run the binary.
 
-## Environment (.env) 🔧
+## Environment (.env)
 
 Create a `.env` file in the project root. Example:
 
@@ -47,7 +47,7 @@ Notes:
 
 ---
 
-## Run & Development 🧪
+## Run & Development
 
 - Install deps and run:
   - `go run main.go`
@@ -61,7 +61,7 @@ Notes:
 
 ---
 
-## Postman Collection 📪
+## Postman Collection
 
 A shared Postman collection is available for testing all APIs.
 
@@ -94,7 +94,7 @@ All secured endpoints use:
 
 ---
 
-## API Specification 📋
+## API Specification
 
 Base path: `/api`
 
@@ -220,7 +220,7 @@ GET /api/stocks/portfolio/:userId
 
 ---
 
-## Database Schema 🗄️
+## Database Schema
 
 Current tables (created at startup):
 
@@ -274,7 +274,7 @@ Recommendation: add FK/unique constraints in production:
 
 ---
 
-## Edge Cases & Scaling 🛡️
+## Edge Cases & Scaling
 
 This section explains how the system currently behaves and recommended improvements.
 
@@ -318,7 +318,7 @@ Scaling notes
 
 ---
 
-## Observability & Testing 💡
+## Observability & Testing
 
 - Logs: logger is initialized in `logger/` — ensure `LOG_LEVEL` is set in env for production.
 - Health checks: add `/health` endpoint to detect DB connectivity and price feed health.
@@ -326,6 +326,6 @@ Scaling notes
 
 ---
 
-## Swagger UI 🕸️
+## Swagger UI
 
 Open `http://localhost:8080/swagger/index.html` after starting the server to explore endpoints and try example payloads.
