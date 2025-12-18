@@ -1,0 +1,323 @@
+basePath: /
+definitions:
+  controllers.AuthResponse:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      token:
+        type: string
+    type: object
+  controllers.ErrorResponse:
+    properties:
+      error:
+        example: invalid user id
+        type: string
+      status:
+        example: failure
+        type: string
+    type: object
+  controllers.GenericSuccessResponse:
+    properties:
+      message:
+        example: Reward and ledger entries created successfully
+        type: string
+      status:
+        example: success
+        type: string
+    type: object
+  controllers.HistoricalINRResponse:
+    properties:
+      history: {}
+      user_id:
+        example: 1
+        type: integer
+    type: object
+  controllers.LoginRequest:
+    properties:
+      email:
+        example: mayuresh@gmail.com
+        type: string
+      password:
+        example: password123
+        type: string
+    type: object
+  controllers.PortfolioResponse:
+    properties:
+      history: {}
+      user_id:
+        example: 1
+        type: integer
+    type: object
+  controllers.RegisterRequest:
+    properties:
+      email:
+        example: mayuresh@gmail.com
+        type: string
+      name:
+        example: Mayuresh
+        type: string
+      password:
+        example: password123
+        type: string
+    type: object
+  controllers.RewardRequest:
+    properties:
+      reward_id:
+        example: reward-uuid-123
+        type: string
+      shares:
+        example: 10
+        type: number
+      stock_symbol:
+        example: AAPL
+        type: string
+      timestamp:
+        example: "2024-12-18T10:00:00Z"
+        type: string
+      user_id:
+        example: 1
+        type: integer
+    type: object
+  controllers.TodayStocksResponse:
+    properties:
+      date:
+        example: "2024-12-18"
+        type: string
+      rewards: {}
+    type: object
+  controllers.UserStatsResponse:
+    properties:
+      history: {}
+      user_id:
+        example: 1
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: narayan.gawas@spit.ac.in
+    name: Narayan Gawas
+  description: Backend service for stock reward calculation and INR valuation. All
+    stocks related endpoints are protected and require JWT authentication.
+  title: Stocky Reward Backend API
+  version: "1.0"
+paths:
+  /api/stocks/historical-inr/{userId}:
+    get:
+      description: Returns historical INR valuation of user rewards
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.HistoricalINRResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get historical INR valuation
+      tags:
+      - Stocks
+  /api/stocks/portfolio/{userId}:
+    get:
+      description: Returns current stock holdings
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.PortfolioResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get user portfolio
+      tags:
+      - Stocks
+  /api/stocks/reward:
+    post:
+      consumes:
+      - application/json
+      description: Assign stock reward to a user (idempotent via reward_id)
+      parameters:
+      - description: Reward payload
+        in: body
+        name: reward
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.RewardRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.GenericSuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create stock reward
+      tags:
+      - Stocks
+  /api/stocks/stats/{userId}:
+    get:
+      description: Returns aggregated stock statistics
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.UserStatsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get user stock stats
+      tags:
+      - Stocks
+  /api/stocks/today-stocks/{userId}:
+    get:
+      description: Returns stocks rewarded today for a user
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.TodayStocksResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get today’s rewarded stocks
+      tags:
+      - Stocks
+  /api/user/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticates user and returns JWT
+      parameters:
+      - description: Login payload
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.AuthResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      summary: Login user
+      tags:
+      - Auth
+  /api/user/register:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new user and returns JWT
+      parameters:
+      - description: User registration payload
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/controllers.AuthResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/controllers.ErrorResponse'
+      summary: Register new user
+      tags:
+      - Auth
+schemes:
+- http
+securityDefinitions:
+  BearerAuth:
+    description: 'Enter JWT as: Bearer <token>'
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

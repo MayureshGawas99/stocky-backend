@@ -1,0 +1,72 @@
+# ======================
+# Go build artifacts
+# ======================
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Binary output
+/bin/
+/build/
+/dist/
+*.out
+
+# ======================
+# Go test artifacts
+# ======================
+*.test
+*.cover
+coverage.out
+
+# ======================
+# Dependency folders
+# ======================
+vendor/
+
+# ======================
+# Environment files
+# ======================
+.env
+.env.*
+!.env.example
+
+# ======================
+# Logs
+# ======================
+*.log
+logs/
+
+
+# ======================
+# IDE / Editor
+# ======================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ======================
+# OS files
+# ======================
+.DS_Store
+Thumbs.db
+
+# ======================
+# Temporary files
+# ======================
+tmp/
+temp/
+
+# ======================
+# Database
+# ======================
+*.db
+*.sqlite
+*.sqlite3
+
+# ======================
+# Docker (optional)
+# ======================
+docker-data/
