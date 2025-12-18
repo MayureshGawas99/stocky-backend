@@ -49,14 +49,12 @@ Notes:
 ## Run & Development
 
 - Install deps and run:
+  - `go mod download` # download module dependencies
   - `go run main.go`
   - Open `http://localhost:8080/swagger/index.html` for API docs.
 - To run in production build mode:
   - `go build -o stock-reward-api .`
   - `./stock-reward-api` (or `stock-reward-api.exe` on Windows)
-- To import dummy SQL manually (optional):
-  - `psql "${DATABASE_URL}" -f resources/dummy_users.sql`
-  - `psql "${DATABASE_URL}" -f resources/dummy_stocks.sql`
 
 ---
 
