@@ -196,10 +196,6 @@ These trade-offs were made to keep the solution focused within the scope of the 
 - Move valuation logic to background jobs
 - Improve error classification, logging, and monitoring
 
-```
-
-```
-
 ## Swagger UI 🕸️
 
 Generate and view the API docs (Swagger UI):
