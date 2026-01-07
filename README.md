@@ -199,3 +199,39 @@ These trade-offs were made to keep the solution focused within the scope of the 
 ```
 
 ```
+
+## Swagger UI 🕸️
+
+Generate and view the API docs (Swagger UI):
+
+1. Install the swag CLI (one-time) 🔧
+
+```bash
+# Install latest swag CLI
+go install github.com/swaggo/swag/cmd/swag@latest
+```
+
+2. Generate / Regenerate docs 📄
+
+```bash
+# From the project root (where go.mod is)
+swag init
+# (Optional) explicitly point at entry file
+# swag init -g main.go
+```
+
+- This creates/updates `docs/docs.go`, `swagger.json`, and `swagger.yaml`.
+
+3. Run the server and open the UI 🔍
+
+```bash
+go run main.go
+# Then open in your browser:
+http://localhost:8080/swagger/index.html
+```
+
+4. Useful tips 💡
+
+- Ensure `main.go` imports the generated package: `_ "stock-reward-api/docs"` (already present in this project).
+- After adding or updating handler annotations, re-run `swag init` to refresh docs.
+- To serve a specific JSON, use: `http://localhost:8080/swagger/doc.json`.
