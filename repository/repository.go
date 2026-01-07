@@ -30,6 +30,14 @@ func CreateReward(
 	}
 	defer tx.Rollback(ctx) 
 
+	//check if rewqardID already exists
+	var existingID uuid.UUID
+	err = tx.QueryRow(ctx, "SELECT id FROM rewards WHERE reward_id=$1", rewardID).Scan(&existingID)
+	if err == nil {
+		logger.Log.Errorf("duplicate reward_id: %s", rewardID)
+		return errors.New("duplicate reward")
+	}
+
 	var rewardUUID uuid.UUID
 	err = tx.QueryRow(ctx, `
 		INSERT INTO rewards 
